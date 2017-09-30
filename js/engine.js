@@ -9,11 +9,12 @@
  * drawn but that is not the case. What's really happening is the entire "scene"
  * is being drawn over and over, presenting the illusion of animation.
  *
- * This engine makes the canvas' context (ctx) object globally available to make 
- * writing app.js a little simpler to work with.
+ * This engine is available globally via the Engine variable and it also makes
+ * the canvas' context (ctx) object globally available to make writing app.js
+ * a little simpler to work with.
  */
 
-var Engine = (function (global) {
+var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
@@ -56,7 +57,7 @@ var Engine = (function (global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    };
+    }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -79,18 +80,18 @@ var Engine = (function (global) {
      */
     function update(dt) {
         updateEntities(dt);
-        _checkCollisions();
+        // checkCollisions();
     }
 
-    /* This is called by the update function  and loops through all of the
+    /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
      * player object. These update methods should focus purely on updating
-     * the data/properties related to  the object. Do your drawing in your
+     * the data/properties related to the object. Do your drawing in your
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function (enemy) {
+        allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -107,13 +108,13 @@ var Engine = (function (global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-      'images/water-block.png', // Top row is water
-      'images/stone-block.png', // Row 1 of 3 of stone
-      'images/stone-block.png', // Row 2 of 3 of stone
-      'images/stone-block.png', // Row 3 of 3 of stone
-      'images/grass-block.png', // Row 1 of 2 of grass
-      'images/grass-block.png' // Row 2 of 2 of grass
-    ],
+                'images/water-block.png',   // Top row is water
+                'images/stone-block.png',   // Row 1 of 3 of stone
+                'images/stone-block.png',   // Row 2 of 3 of stone
+                'images/stone-block.png',   // Row 3 of 3 of stone
+                'images/grass-block.png',   // Row 1 of 2 of grass
+                'images/grass-block.png'    // Row 2 of 2 of grass
+            ],
             numRows = 6,
             numCols = 5,
             row, col;
@@ -139,14 +140,14 @@ var Engine = (function (global) {
     }
 
     /* This function is called by the render function and is called on each game
-     * tick. It's purpose is to then call the render functions you have defined
+     * tick. Its purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function (enemy) {
+        allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
@@ -158,17 +159,7 @@ var Engine = (function (global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        delete allEnemies;
-        delete player;
-        allEnemies = [new Enemy(320, 90), new Enemy(27, 174), new Enemy(118, 256)];
-        player = new Player(118, 423);
-    }
-
-    function _checkCollisions() {
-        var hit = player.checkCollisions(allEnemies);
-        if (hit) {
-            reset();
-        }
+        // noop
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -176,16 +167,16 @@ var Engine = (function (global) {
      * all of these images are properly loaded our game will start.
      */
     Resources.load([
-    'images/stone-block.png',
-    'images/water-block.png',
-    'images/grass-block.png',
-    'images/enemy-bug.png',
-    'images/char-boy.png'
-  ]);
+        'images/stone-block.png',
+        'images/water-block.png',
+        'images/grass-block.png',
+        'images/enemy-bug.png',
+        'images/char-boy.png'
+    ]);
     Resources.onReady(init);
 
     /* Assign the canvas' context object to the global variable (the window
-     * object when run in a browser) so that developer's can use it more easily
+     * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
      */
     global.ctx = ctx;
